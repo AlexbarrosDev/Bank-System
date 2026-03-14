@@ -1,9 +1,16 @@
 package com.alexdev.entities;
 
+import lombok.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-    public class Account implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class Account implements Serializable {
 
     private Long id;
     private String owner;
