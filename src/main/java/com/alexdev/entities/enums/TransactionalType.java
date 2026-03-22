@@ -1,4 +1,4 @@
-package com.alexdev.entities;
+package com.alexdev.entities.enums;
 
 import java.io.Serializable;
 
