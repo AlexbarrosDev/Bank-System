@@ -1,41 +1,53 @@
 package com.alexdev.entities;
 
+import com.alexdev.exceptions.InsufficientBalanceException;
+import com.alexdev.exceptions.InvalidAmountException;
 import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Account implements Serializable {
 
     private Long id;
     private String owner;
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    @Setter(AccessLevel.NONE)
+    private List<Transaction> transactions = new ArrayList<>();
+
+    public Account(Long id, String owner, BigDecimal balance) {
+        this.id = id;
+        this.owner = owner;
+        this.balance = balance;
+    }
 
     public void deposit(BigDecimal value) {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
-         throw new IllegalArgumentException("Inválid number");
+         throw new InvalidAmountException("Invalid number");
         }
         balance = balance.add(value);
     }
 
     public void withdraw(BigDecimal value) {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Inválid number!");
+            throw new InvalidAmountException("Invalid value!");
         }
         if (balance.compareTo(value) < 0) {
-            throw new IllegalArgumentException("Insufficient balance!");
+            throw new InsufficientBalanceException("Insufficient balance!");
         }
         balance = balance.subtract(value);
     }
 
     public void transfer(Account account, BigDecimal value) {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Inválid number!");
+            throw new InvalidAmountException("Invalid value!");
         }
         withdraw(value);
         account.deposit(value);
