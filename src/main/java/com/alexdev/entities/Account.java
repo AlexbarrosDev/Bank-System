@@ -30,7 +30,7 @@ public class Account implements Serializable {
 
     public void deposit(BigDecimal value) {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
-         throw new InvalidAmountException("Invalid number");
+         throw new InvalidAmountException("Invalid value");
         }
         balance = balance.add(value);
     }
@@ -39,6 +39,7 @@ public class Account implements Serializable {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidAmountException("Invalid value!");
         }
+
         if (balance.compareTo(value) < 0) {
             throw new InsufficientBalanceException("Insufficient balance!");
         }
@@ -49,6 +50,11 @@ public class Account implements Serializable {
         if (value.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidAmountException("Invalid value!");
         }
+
+        if (account.getBalance().compareTo(value) < 0) {
+            throw new InsufficientBalanceException("Insufficient balance!");
+        }
+
         withdraw(value);
         account.deposit(value);
     }
